@@ -45,14 +45,19 @@ public class PostPutController { // PostMapping-creating a user using PathVariab
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
+	public ResponseEntity<Map<String, String>> deleteUser(@PathVariable("id") Long id) {
+		
+		Map<String, String> result = new HashMap<>();
+	
 		if (!userMap.containsKey(id)) {
-			return ResponseEntity.status(404).body("User Not Found");
+			result.put("error", "User Not Found");
+			return ResponseEntity.status(404).body(result);
 		}
 
 		userMap.remove(id);
 
-		return ResponseEntity.ok("User "+id+" deleted");
+		result.put("status", "ok");
+		return ResponseEntity.ok(result);
 
 	}
 }
